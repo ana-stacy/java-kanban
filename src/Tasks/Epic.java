@@ -1,7 +1,6 @@
-package Task;
+package Tasks;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Epic extends Task {
 
@@ -16,7 +15,7 @@ public class Epic extends Task {
         subtasksId.add(id);
     }
 
-    ArrayList<Integer> getListOfSubtasksId() {
+    public ArrayList<Integer> getListOfSubtasksId() {
         return subtasksId;
     }
 

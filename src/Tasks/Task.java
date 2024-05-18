@@ -1,12 +1,10 @@
-package Task;
-
-import java.util.Objects;
+package Tasks;
 
 public class Task {
-    String name; //Название задачи
+    String name;
     private int id;
-    String description; //Описание задачи
-    Status status = Status.NEW; // сразу задать NEW? в конструкторе?
+    String description;
+    Status status = Status.NEW;
 
     public Task(String name, String description) {
         this.name = name;

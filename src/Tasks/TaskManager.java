@@ -1,11 +1,10 @@
-package Task;
+package Tasks;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TaskManager {
 
-    // каждая задача/эпик/подзадача создается как новый объект и кладется в свой HashMap
     HashMap<Integer, Task> tasks;
     HashMap<Integer, Epic> epics;
     HashMap<Integer, Subtask> subtasks;
@@ -58,10 +57,6 @@ public class TaskManager {
         epics.clear();
     }
 
-    // Также советуем применить знания о методах equals() и hashCode(), чтобы реализовать идентификацию задачи по её id.
-    // При этом две задачи с одинаковым id должны выглядеть для менеджера как одна и та же.
-    // Где это используется? там где нужно проверить, есть ли уже такая задача
-
     // c. Получение по идентификатору.
     public Task getTask(int id) {
         return tasks.get(id);
@@ -89,19 +84,16 @@ public class TaskManager {
     public void createNewSubtask (Subtask subtask) {
         subtask.setId(++idCounter);
         subtasks.put(subtask.getId(), subtask);
-        // найти связанный эпик и в его список положить новую подзадачу
         Epic epic = epics.get(subtask.getEpicId());
         epic.addSubtaskId(idCounter);
     }
 
     //e. Обновление. Новая версия объекта с верным идентификатором передаётся в виде параметра.
     public void updateTask (Task task) {
-        // здесь нужно получить id таски, и положить новую таску с этим же айди в хэшмап
         tasks.put(task.getId(), task);
     }
 
     public void updateEpic (int id) {
-        // здесь нужно получить id таски, и положить новую таску с этим же айди в хэшмап
         Epic epic = epics.get(id);
         epic.status = defineEpicStatus(epic.status, getListOfSubtasksByEpic(id));
     }
@@ -130,7 +122,6 @@ public class TaskManager {
     }
 
     public void updateSubtask (Subtask subtask) {
-        // здесь нужно получить id таски, и положить новую таску с этим же айди в хэшмап
         subtasks.put(subtask.getId(), subtask);
         updateEpic(subtask.getEpicId());
     }
@@ -158,8 +149,6 @@ public class TaskManager {
     //a. Получение списка всех подзадач определённого эпика.
     ArrayList<Subtask> getListOfSubtasksByEpic (int id) {
         Epic epic = epics.get(id);
-        // здесь нужен массив, который привязан к этому эпику
-        // для каждого айди из массива нужна задача из хэштаблицы
         ArrayList<Subtask> listOfSubtasks = new ArrayList<>();
         for (int subtaskId : epic.getListOfSubtasksId()) {
             Subtask subtask = subtasks.get(subtaskId);
@@ -167,14 +156,5 @@ public class TaskManager {
         }
         return listOfSubtasks;
     }
-
-    /*Управление статусами осуществляется по следующему правилу:
-    a. Менеджер сам не выбирает статус для задачи. Информация о нём приходит менеджеру вместе с информацией о самой задаче.
-    По этим данным в одних случаях он будет сохранять статус, в других будет рассчитывать.
-    b. Для эпиков:
-    если у эпика нет подзадач или все они имеют статус NEW, то статус должен быть NEW.
-    если все подзадачи имеют статус DONE, то и эпик считается завершённым — со статусом DONE.
-    во всех остальных случаях статус должен быть IN_PROGRESS. */
-
 }
 

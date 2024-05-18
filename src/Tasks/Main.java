@@ -1,4 +1,4 @@
-package Task;
+package Tasks;
 
 public class Main {
 
@@ -27,8 +27,6 @@ public class Main {
 
         taskManager.createNewSubtask(subtask1);
         taskManager.createNewSubtask(subtask2);
-
-        System.out.println("ок!");
 
         // Распечатайте списки эпиков, задач и подзадач через
         System.out.println(taskManager.getListOfTasks());
