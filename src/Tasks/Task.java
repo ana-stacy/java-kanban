@@ -1,10 +1,14 @@
 package Tasks;
 
+import java.util.Objects;
+
 public class Task {
-    String name;
+
+    private String name;
     private int id;
-    String description;
-    Status status = Status.NEW;
+    private String description;
+
+    private Status status = Status.NEW;
 
     public Task(String name, String description) {
         this.name = name;
@@ -26,6 +30,22 @@ public class Task {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         String result = "Task{" +
@@ -38,5 +58,22 @@ public class Task {
         }
         return result + ", status=" + status +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id == task.id;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 17;
+        if (id != 0) {
+            hash = hash + id;
+        }
+        return hash;
     }
 }

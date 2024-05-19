@@ -15,22 +15,31 @@ public class Epic extends Task {
         subtasksId.add(id);
     }
 
+    public void deleteSubtaskId (int id) {
+        subtasksId.remove((Integer) id);
+    }
+
     public ArrayList<Integer> getListOfSubtasksId() {
         return subtasksId;
     }
 
-    boolean isListOfSubtasksEmpty() {
+    public boolean isListOfSubtasksEmpty() {
         return subtasksId.isEmpty();
     }
 
+    public void clearListOfSubtasksByEpic() {
+        if (!isListOfSubtasksEmpty()) {
+            subtasksId.clear();
+        }
+    }
 
     @Override
     public String toString() {
         String result = "Epic{" +
                 "id=" + getId() +
-                ", name='" + name + '\'';
-        if (description != null) {
-            result = result + ", description.length='" + description.length();
+                ", name='" + getName() + '\'';
+        if (getDescription() != null) {
+            result = result + ", description.length='" + getDescription().length();
         } else {
             result = result + ", description=null";
         }
@@ -40,7 +49,7 @@ public class Epic extends Task {
             result =  result + ", subtasksId=" + getListOfSubtasksId();
         }
         return result +
-                ", status=" + status +
+                ", status=" + getStatus() +
                 '}';
     }
 }
