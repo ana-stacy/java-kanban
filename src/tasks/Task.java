@@ -1,6 +1,6 @@
-package Tasks;
+package tasks;
 
-import java.util.Objects;
+import java.util.Objects; // при автоматическом переопределении метода hashCode() используется класс Objects, поэтому оставила
 
 public class Task {
 
@@ -46,6 +46,14 @@ public class Task {
         this.status = status;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         String result = "Task{" +
@@ -70,10 +78,6 @@ public class Task {
 
     @Override
     public int hashCode() {
-        int hash = 17;
-        if (id != 0) {
-            hash = hash + id;
-        }
-        return hash;
+        return Objects.hash(id);
     }
 }

@@ -1,9 +1,9 @@
-package TaskManager;
+package taskManager;
 
-import Tasks.Epic;
-import Tasks.Status;
-import Tasks.Subtask;
-import Tasks.Task;
+import tasks.Epic;
+import tasks.Status;
+import tasks.Subtask;
+import tasks.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,7 +49,7 @@ public class TaskManager {
         subtasks.clear();
         for (Epic epic : epics.values()) {
             epic.clearListOfSubtasksByEpic();
-            updateEpic(epic.getId());
+            defineEpicStatus(epic.getId());
         }
     }
 
@@ -82,7 +82,7 @@ public class TaskManager {
         subtasks.put(subtask.getId(), subtask);
         Epic epic = epics.get(subtask.getEpicId());
         epic.addSubtaskId(idCounter);
-        updateEpic(epic.getId());
+        defineEpicStatus(epic.getId());
     }
 
     //e. Обновление. Новая версия объекта с верным идентификатором передаётся в виде параметра.
@@ -90,19 +90,18 @@ public class TaskManager {
         tasks.put(task.getId(), task);
     }
 
-    public void updateEpic (int epicId) {
-        Epic epic = epics.get(epicId);
-        epic.setStatus(defineEpicStatus(getListOfSubtasksByEpic(epicId)));
+    public void updateEpic (Epic epic) {
+        epics.put(epic.getId(), epic);
     }
 
-    private Status defineEpicStatus(ArrayList<Subtask> listOfSubtasksByEpic) {
-        ArrayList<Status> statuses = checkUniqueSubtasksStatuses(listOfSubtasksByEpic);
+    public void defineEpicStatus(int epicId) {
+        ArrayList<Status> statuses = checkUniqueSubtasksStatuses(getListOfSubtasksByEpic(epicId));
         if (statuses.size() == 1 && statuses.contains(Status.NEW) || statuses.isEmpty()) {
-            return Status.NEW;
+            epics.get(epicId).setStatus(Status.NEW);
         } else if (statuses.size() == 1 && statuses.contains(Status.DONE)) {
-            return Status.DONE;
+            epics.get(epicId).setStatus(Status.DONE);
         } else {
-            return Status.IN_PROGRESS;
+            epics.get(epicId).setStatus(Status.IN_PROGRESS);
         }
     }
 
@@ -120,7 +119,7 @@ public class TaskManager {
 
     public void updateSubtask (Subtask subtask) {
         subtasks.put(subtask.getId(), subtask);
-        updateEpic(subtask.getEpicId());
+        defineEpicStatus(subtask.getEpicId());
     }
 
     //f. Удаление по идентификатору.
@@ -142,7 +141,7 @@ public class TaskManager {
         Epic epic = epics.get(subtasks.get(subtaskId).getEpicId());
         epic.deleteSubtaskId(subtaskId);
         subtasks.remove(subtaskId);
-        updateEpic(epic.getId());
+        defineEpicStatus(epic.getId());
     }
 
     // Дополнительные методы:
