@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    ArrayList<Task> memoryKeeper;
+    private final ArrayList<Task> memoryKeeper;
 
     public InMemoryHistoryManager() {
         memoryKeeper = new ArrayList<>(10);
@@ -13,7 +13,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public ArrayList<Task> getHistory() {
-        return memoryKeeper;
+        return new ArrayList<>(memoryKeeper);
     }
 
     @Override

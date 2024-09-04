@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import taskManagers.*;
@@ -5,10 +6,15 @@ import tasks.*;
 
 public class InMemoryHistoryManagerTest {
 
+    private InMemoryTaskManager taskManager;
+
+    @BeforeEach
+    public void beforeEach() {
+        taskManager = new InMemoryTaskManager();
+    }
+
     @Test
     public void addHistoryTest() {
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
-
         Task task1 = new Task("Задача 1", "Описание задачи 1");
         taskManager.createNewTask(task1);
 
@@ -27,8 +33,6 @@ public class InMemoryHistoryManagerTest {
 
     @Test
     public void updateHistoryAfterAdding11Task() {
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
-
         Task task1 = new Task("Задача 1", "Описание задачи 1");
         taskManager.createNewTask(task1);
         Task task2 = new Task("Задача 2", "Описание задачи 2");

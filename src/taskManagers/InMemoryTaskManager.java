@@ -10,7 +10,7 @@ public class InMemoryTaskManager implements TaskManager {
     private HashMap<Integer, Task> tasks;
     private HashMap<Integer, Epic> epics;
     private HashMap<Integer, Subtask> subtasks;
-    private InMemoryHistoryManager historyManager = (InMemoryHistoryManager) Managers.getDefaultHistory();
+    private HistoryManager historyManager = Managers.getDefaultHistory();
     int idCounter = 0;
 
     public InMemoryTaskManager() {
@@ -34,7 +34,6 @@ public class InMemoryTaskManager implements TaskManager {
         return new ArrayList<>(subtasks.values());
     }
 
-    // b. Удаление всех задач.
     @Override
     public void clearListOfTasks() {
         tasks.clear();

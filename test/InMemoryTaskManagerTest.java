@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import taskManagers.*;
@@ -5,10 +6,15 @@ import tasks.*;
 
 public class InMemoryTaskManagerTest {
 
+    private InMemoryTaskManager taskManager;
+
+    @BeforeEach
+    public void beforeEach() {
+        taskManager = new InMemoryTaskManager();
+    }
+
     @Test
     public void createdTaskEqualsSavedTaskIfIdsIdentical() {
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
-
         Task task1 = new Task("Задача 1", "Описание задачи 1");
         taskManager.createNewTask(task1);
 
@@ -20,8 +26,6 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void createdEpicEqualsSavedEpicIfIdsIdentical() {
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
-
         Epic epic1 = new Epic("Эпик 1", "Описание эпика 1");
         taskManager.createNewEpic(epic1);
 
@@ -33,8 +37,6 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void createdSubtaskEqualsSavedSubtaskIfIdsIdentical() {
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
-
         Epic epic1 = new Epic("Эпик 1", "Описание эпика 1");
         taskManager.createNewEpic(epic1);
 
@@ -49,8 +51,6 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void taskConflictIds() {
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
-
         Task task1 = new Task("Задача 1", "Описание задачи 1");
         Task task2 = new Task("Задача 2", "Описание задачи 2");
 
@@ -62,8 +62,6 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void immutabilityTaskTest() {
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
-
         Task task1 = new Task("Задача 1", "Описание задачи 1");
         taskManager.createNewTask(task1);
 
@@ -77,8 +75,6 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void clearListOfTasksTest() {
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
-
         Task task1 = new Task("Задача 1", "Описание задачи 1");
         taskManager.createNewTask(task1);
         Task task2 = new Task("Задача 2", "Описание задачи 2");
@@ -91,8 +87,6 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void clearListOfEpicsTest() {
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
-
         Epic epic1 = new Epic("Эпик 1", "Описание эпика 1");
         taskManager.createNewEpic(epic1);
 
@@ -107,8 +101,6 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void clearListOfSubtasksTest() {
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
-
         Epic epic1 = new Epic("Эпик 1", "Описание эпика 1");
         taskManager.createNewEpic(epic1);
 
@@ -125,8 +117,6 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void updateEpicStatusTest() {
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
-
         Epic epic1 = new Epic("Эпик 1", "Описание эпика 1");
         taskManager.createNewEpic(epic1);
 
@@ -146,8 +136,6 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void updateTaskStatusTest() {
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
-
         Task task1 = new Task("Задача 1", "Описание задачи 1");
         taskManager.createNewTask(task1);
 
@@ -159,8 +147,6 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void deleteTaskTest() {
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
-
         Task task1 = new Task("Задача 1", "Описание задачи 1");
         taskManager.createNewTask(task1);
 
@@ -172,8 +158,6 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void deleteEpicTest() {
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
-
         Epic epic1 = new Epic("Эпик 1", "Описание эпика 1");
         taskManager.createNewEpic(epic1);
 
@@ -190,8 +174,6 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void deleteSubtaskTest() {
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
-
         Epic epic1 = new Epic("Эпик 1", "Описание эпика 1");
         taskManager.createNewEpic(epic1);
 
