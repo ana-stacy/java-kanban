@@ -1,10 +1,9 @@
-package taskManagers;
+package taskmanagers;
 
 import tasks.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
 

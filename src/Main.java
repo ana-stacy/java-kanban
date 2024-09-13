@@ -1,4 +1,4 @@
-import taskManagers.*;
+import taskmanagers.*;
 import tasks.*;
 
 public class Main {

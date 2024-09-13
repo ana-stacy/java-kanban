@@ -2,10 +2,9 @@ import nodes.Node;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-import taskManagers.*;
+import taskmanagers.*;
 import tasks.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

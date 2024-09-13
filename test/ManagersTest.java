@@ -1,8 +1,8 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import taskManagers.HistoryManager;
-import taskManagers.Managers;
-import taskManagers.TaskManager;
+import taskmanagers.HistoryManager;
+import taskmanagers.Managers;
+import taskmanagers.TaskManager;
 
 public class ManagersTest {
 
