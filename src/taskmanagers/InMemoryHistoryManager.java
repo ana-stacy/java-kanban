@@ -51,7 +51,7 @@ public class InMemoryHistoryManager implements HistoryManager {
             historyMap.put(task.getId(), newNode);
         }
 
-        public void deleteTaskIfExists (int id) {
+        public void deleteTaskIfExists(int id) {
             Node<Task> taskNode = historyMap.get(id);
             if (taskNode != null) {
                 removeNode(taskNode);
