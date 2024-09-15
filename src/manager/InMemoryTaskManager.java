@@ -1,9 +1,13 @@
-package taskmanagers;
+package manager;
 
-import tasks.*;
+import tasks.Epic;
+import tasks.Task;
+import tasks.Subtask;
+import tasks.Status;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -181,8 +185,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Task> getHistory() {
-        return (ArrayList<Task>) (historyManager.getHistory());
+    public List<Task> getHistory() {
+        return historyManager.getHistory();
     }
 
 }

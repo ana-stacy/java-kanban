@@ -1,4 +1,4 @@
-package taskmanagers;
+package manager;
 
 import tasks.Task;
 
@@ -8,7 +8,7 @@ import nodes.Node;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    HandMadeLinkedList history = new HandMadeLinkedList();
+    private HandMadeLinkedList history = new HandMadeLinkedList();
 
 
     @Override
@@ -27,7 +27,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     }
 
-    public static class HandMadeLinkedList {
+    public static class HandMadeLinkedList { // объект класса используется в классе InMemoryHistoryManagerTest
 
         private final Map<Integer, Node<Task>> historyMap = new HashMap<>();
 
@@ -38,24 +38,22 @@ public class InMemoryHistoryManager implements HistoryManager {
         public void linklast(Task task) {
             deleteTaskIfExists(task.getId());
 
-            final Node<Task> oldTail = tail;
-            final Node<Task> newNode = new Node<>(oldTail, task, null);
-            tail = newNode;
+            final Node<Task> newNode = new Node<>(tail, task, null);
 
-            if (oldTail == null) {
+            if (tail == null) {
                 head = newNode;
             } else {
-                oldTail.setNext(newNode);
+                tail.setNext(newNode);
             }
 
+            tail = newNode;
             historyMap.put(task.getId(), newNode);
         }
 
         public void deleteTaskIfExists(int id) {
-            Node<Task> taskNode = historyMap.get(id);
+            Node<Task> taskNode = historyMap.remove(id);
             if (taskNode != null) {
                 removeNode(taskNode);
-                historyMap.remove(id);
             }
         }
 
