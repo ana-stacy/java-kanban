@@ -6,16 +6,16 @@ public class Epic extends Task {
 
     private final ArrayList<Integer> subtasksId;
 
-    public Epic (String name, String description) {
+    public Epic(String name, String description) {
         super(name, description);
         subtasksId = new ArrayList<>();
     }
 
-    public void addSubtaskId (int id) {
+    public void addSubtaskId(int id) {
         subtasksId.add(id);
     }
 
-    public void deleteSubtaskId (int id) {
+    public void deleteSubtaskId(int id) {
         subtasksId.remove((Integer) id);
     }
 

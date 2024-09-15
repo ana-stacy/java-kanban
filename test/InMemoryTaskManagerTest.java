@@ -1,8 +1,11 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-import taskManagers.*;
-import tasks.*;
+import manager.InMemoryTaskManager;
+import tasks.Epic;
+import tasks.Task;
+import tasks.Subtask;
+import tasks.Status;
 
 public class InMemoryTaskManagerTest {
 
