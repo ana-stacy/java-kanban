@@ -5,7 +5,7 @@ import manager.InMemoryTaskManager;
 import tasks.Epic;
 import tasks.Task;
 import tasks.Subtask;
-import tasks.Status;
+import enums.Status;
 
 public class InMemoryTaskManagerTest {
 

@@ -1,5 +1,8 @@
 package tasks;
 
+import enums.Status;
+import enums.Type;
+
 import java.util.Objects; // при автоматическом переопределении метода hashCode() используется класс Objects, поэтому оставила
 
 public class Task {
@@ -9,10 +12,12 @@ public class Task {
     private String description;
 
     private Status status = Status.NEW;
+    protected Type type;
 
     public Task(String name, String description) {
         this.name = name;
         this.description = description;
+        this.type = Type.TASK;
     }
 
     public Task(int id, String name, String description, Status status) {
@@ -20,6 +25,19 @@ public class Task {
         this.name = name;
         this.description = description;
         this.status = status;
+        this.type = Type.TASK;
+    }
+
+    public Task(int id, Type type, String name, Status status, String description) {
+        this.id = id;
+        this.type = type;
+        this.name = name;
+        this.status = status;
+        this.description = description;
+    }
+
+    public Integer getEpicId() {
+        return null;
     }
 
     public int getId() {
@@ -52,6 +70,10 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Type getType() {
+        return type;
     }
 
     @Override
