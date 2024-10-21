@@ -49,7 +49,7 @@ public class Main {
         FileBackedTaskManager loadFileManager = FileBackedTaskManager.loadFromFile(file);
 
         Task task3 = new Task("Задача 3", "Описание задачи 3");
-        loadFileManager.createNewTask(task2);
+        loadFileManager.createNewTask(task3);
 
 
         System.out.println("Список задач из файла:");
@@ -71,10 +71,6 @@ public class Main {
         for (Subtask subtask : loadFileManager.getListOfSubtasks()) {
             System.out.println(subtask);
         }
-
-
-
-
 
         /*InMemoryTaskManager taskManager = new InMemoryTaskManager();
 
