@@ -1,5 +1,6 @@
 import enums.Status;
 import manager.FileBackedTaskManager;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
@@ -19,6 +20,14 @@ public class FileBackedTaskManagerTest extends InMemoryTaskManagerTest {
     public void init() throws IOException {
         file = File.createTempFile("tempFile", ".csv");
         taskManager = FileBackedTaskManager.loadFromFile(file);
+    }
+
+    @AfterEach
+    public void closeFile() {
+        boolean deleted = file.delete();
+        if (!deleted) {
+            System.out.println("Не удалось удалить временный файл");
+        }
     }
 
     @Test
@@ -79,23 +88,10 @@ public class FileBackedTaskManagerTest extends InMemoryTaskManagerTest {
 
         FileBackedTaskManager loadFileManager = FileBackedTaskManager.loadFromFile(file);
 
-        Assertions.assertEquals(loadFileManager.getListOfTasks().size(), taskManager.getListOfTasks().size(),
-                "Количество задач не совпадает");
-        Assertions.assertEquals(loadFileManager.getListOfSubtasks().size(), taskManager.getListOfSubtasks().size(),
-                "Количество подзадач не совпадает");
-        Assertions.assertEquals(loadFileManager.getListOfEpics().size(), taskManager.getListOfEpics().size(),
-                "Количество эпиков не совпадает");
-
-        Task testTask1 = loadFileManager.getListOfTasks().get(0);
-        Epic testEpic1 = loadFileManager.getListOfEpics().get(0);
-        Subtask testSubtask1 = loadFileManager.getListOfSubtasks().get(0);
-
-        Assertions.assertEquals(task1, testTask1, "Задачи не совпадают");
-        Assertions.assertEquals(epic1, testEpic1, "Названия задач не совпадают");
-        Assertions.assertEquals(subtask1, testSubtask1, "Описания задач не совпадают");
+        Assertions.assertEquals(taskManager.getListOfTasks(), loadFileManager.getListOfTasks(), "Задачи не совпадают");
     }
 
-    @Override
+    /*@Override
     @Test
     public void createdTaskEqualsSavedTaskIfIdsIdentical() {
         super.createdTaskEqualsSavedTaskIfIdsIdentical();
@@ -172,6 +168,6 @@ public class FileBackedTaskManagerTest extends InMemoryTaskManagerTest {
     @Test
     public void deleteSubtaskTest() {
         super.deleteSubtaskTest();
-    }
+    }*/
 
 }

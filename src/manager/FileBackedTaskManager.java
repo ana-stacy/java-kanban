@@ -6,6 +6,7 @@ import tasks.Task;
 import tasks.Subtask;
 import enums.Type;
 import enums.Status;
+import tasks.TaskConverter;
 
 import java.io.*;
 
@@ -24,31 +25,18 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(file))) {
             fileWriter.write("id,type,name,status,description,epic\n");
             for (Task task : getListOfTasks()) {
-                fileWriter.write(toString(task) + "\n");
+                fileWriter.write(TaskConverter.toString(task) + "\n");
             }
             for (Epic epic : getListOfEpics()) {
-                fileWriter.write(toString(epic) + "\n");
+                fileWriter.write(TaskConverter.toString(epic) + "\n");
             }
             for (Subtask subtask : getListOfSubtasks()) {
-                fileWriter.write(toString(subtask) + "\n");
+                fileWriter.write(TaskConverter.toString(subtask) + "\n");
             }
         } catch (IOException exception) {
             throw new ManagerSaveException("Ошибка в файле: " + file.getAbsolutePath(), exception);
         }
     }
-
-    public String toString(Task task) {
-        String taskToString;
-        if (task.getType() == Type.TASK || task.getType() == Type.EPIC) {
-            taskToString = task.getId() + "," + task.getType() + "," + task.getName() + "," + task.getStatus() + ","
-                    + task.getDescription() + ",";
-        } else {
-            taskToString = task.getId() + "," + task.getType() + "," + task.getName() + "," + task.getStatus() + ","
-                    + task.getDescription() + "," + task.getEpicId();
-        }
-        return taskToString;
-    }
-
 
     public static FileBackedTaskManager loadFromFile(File file) {
 
@@ -59,48 +47,30 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             int maxId = 0;
             while (fileReader.ready()) {
                 String value = fileReader.readLine();
-                Task task = fromString(value);
-                if (task.getType() == Type.TASK) {
-                    fileBackedTaskManager.tasks.put(task.getId(), task);
-                    if (task.getId() > maxId) {
-                        maxId = task.getId();
-                    }
-                } else if (task.getType() == Type.EPIC) {
-                    fileBackedTaskManager.epics.put(task.getId(), (Epic) task);
-                    if (task.getId() > maxId) {
-                        maxId = task.getId();
-                    }
-                } else {
-                    fileBackedTaskManager.subtasks.put(task.getId(), (Subtask) task);
-                    int epicId = task.getEpicId();
-                    Epic epic = fileBackedTaskManager.epics.get(epicId);
-                    epic.addSubtaskId(task.getId());
-                    if (task.getId() > maxId) {
-                        maxId = task.getId();
-                    }
+                Task task = TaskConverter.fromString(value);
+                switch (task.getType()) {
+                    case Type.TASK:
+                        fileBackedTaskManager.tasks.put(task.getId(), task);
+                        break;
+                    case Type.EPIC:
+                        fileBackedTaskManager.epics.put(task.getId(), (Epic) task);
+                        break;
+                    case Type.SUBTASK:
+                        fileBackedTaskManager.subtasks.put(task.getId(), (Subtask) task);
+                        int epicId = task.getEpicId();
+                        Epic epic = fileBackedTaskManager.epics.get(epicId);
+                        epic.addSubtaskId(task.getId());
+                        break;
                 }
-                fileBackedTaskManager.idCounter = maxId;
+                if (task.getId() > maxId) {
+                    maxId = task.getId();
+                }
             }
+            fileBackedTaskManager.idCounter = maxId;
         } catch (IOException exception) {
             throw new ManagerSaveException("Ошибка в файле: " + file.getAbsolutePath(), exception);
         }
         return fileBackedTaskManager;
-    }
-
-    public static Task fromString(String value) {
-        String[] split = value.split(",");
-        Task task;
-        if (Type.valueOf(split[1]) == Type.TASK) {
-            task = new Task(Integer.parseInt(split[0]), Type.valueOf(split[1]), split[2],
-                    Status.valueOf(split[3]), split[4]);
-        } else if (Type.valueOf(split[1]) == Type.EPIC) {
-            task = new Epic(Integer.parseInt(split[0]), Type.valueOf(split[1]), split[2],
-                    Status.valueOf(split[3]), split[4]);
-        } else {
-            task = new Subtask(Integer.parseInt(split[0]), Type.valueOf(split[1]), split[2],
-            Status.valueOf(split[3]), split[4], Integer.parseInt(split[5]));
-        }
-        return task;
     }
 
     @Override

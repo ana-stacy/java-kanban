@@ -51,9 +51,7 @@ public class Main {
         Task task3 = new Task("Задача 3", "Описание задачи 3");
         loadFileManager.createNewTask(task3);
 
-
         System.out.println("Список задач из файла:");
-
         System.out.println("Задачи:");
         for (Task task : loadFileManager.getListOfTasks()) {
             System.out.println(task);
