@@ -1,25 +1,34 @@
 package tasks;
 
-import java.util.Objects; // при автоматическом переопределении метода hashCode() используется класс Objects, поэтому оставила
+import enums.Status;
+import enums.Type;
+
+import java.util.Objects;
 
 public class Task {
 
     private String name;
     private int id;
     private String description;
-
-    private Status status = Status.NEW;
-
-    public Task(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
+    private Status status;
 
     public Task(int id, String name, String description, Status status) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.status = status;
+    }
+
+    public Task(String name, String description) {
+        this(0, name, description, Status.NEW);
+    }
+
+    public Type getType() {
+        return Type.TASK;
+    }
+
+    public Integer getEpicId() {
+        return null;
     }
 
     public int getId() {
