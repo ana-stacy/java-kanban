@@ -25,9 +25,7 @@ public class FileBackedTaskManagerTest extends InMemoryTaskManagerTest {
     @AfterEach
     public void closeFile() {
         boolean deleted = file.delete();
-        if (!deleted) {
-            System.out.println("Не удалось удалить временный файл");
-        }
+        Assertions.assertTrue(deleted, "Не удалось удалить временный файл: " + file.getAbsolutePath());
     }
 
     @Test
@@ -89,85 +87,7 @@ public class FileBackedTaskManagerTest extends InMemoryTaskManagerTest {
         FileBackedTaskManager loadFileManager = FileBackedTaskManager.loadFromFile(file);
 
         Assertions.assertEquals(taskManager.getListOfTasks(), loadFileManager.getListOfTasks(), "Задачи не совпадают");
+        Assertions.assertEquals(taskManager.getListOfSubtasks(), loadFileManager.getListOfSubtasks(), "Подзадачи не совпадают");
+        Assertions.assertEquals(taskManager.getListOfEpics(), loadFileManager.getListOfEpics(), "Эпики не совпадают");
     }
-
-    /*@Override
-    @Test
-    public void createdTaskEqualsSavedTaskIfIdsIdentical() {
-        super.createdTaskEqualsSavedTaskIfIdsIdentical();
-
-    }
-
-    @Override
-    @Test
-    public void createdEpicEqualsSavedEpicIfIdsIdentical() {
-        super.createdEpicEqualsSavedEpicIfIdsIdentical();
-    }
-
-    @Override
-    @Test
-    public void createdSubtaskEqualsSavedSubtaskIfIdsIdentical() {
-        super.createdSubtaskEqualsSavedSubtaskIfIdsIdentical();
-    }
-
-    @Override
-    @Test
-    public void taskConflictIds() {
-        super.taskConflictIds();
-    }
-
-    @Override
-    @Test
-    public void immutabilityTaskTest() {
-        super.immutabilityTaskTest();
-    }
-
-    @Override
-    @Test
-    public void clearListOfTasksTest() {
-        super.clearListOfTasksTest();
-    }
-
-    @Override
-    @Test
-    public void clearListOfEpicsTest() {
-        super.clearListOfEpicsTest();
-    }
-
-    @Override
-    @Test
-    public void clearListOfSubtasksTest() {
-        super.clearListOfSubtasksTest();
-    }
-
-    @Override
-    @Test
-    public void updateEpicStatusTest() {
-        super.updateEpicStatusTest();
-    }
-
-    @Override
-    @Test
-    public void updateTaskStatusTest() {
-        super.updateTaskStatusTest();
-    }
-
-    @Override
-    @Test
-    public void deleteTaskTest() {
-        super.deleteTaskTest();
-    }
-
-    @Override
-    @Test
-    public void deleteEpicTest() {
-        super.deleteEpicTest();
-    }
-
-    @Override
-    @Test
-    public void deleteSubtaskTest() {
-        super.deleteSubtaskTest();
-    }*/
-
 }
