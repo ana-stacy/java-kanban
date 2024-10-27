@@ -3,7 +3,7 @@ package manager;
 import tasks.Epic;
 import tasks.Task;
 import tasks.Subtask;
-import tasks.Status;
+import enums.Status;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,16 +11,17 @@ import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    private HashMap<Integer, Task> tasks;
-    private HashMap<Integer, Epic> epics;
-    private HashMap<Integer, Subtask> subtasks;
-    private HistoryManager historyManager = Managers.getDefaultHistory();
-    int idCounter = 0;
+    protected HashMap<Integer, Task> tasks;
+    protected HashMap<Integer, Epic> epics;
+    protected HashMap<Integer, Subtask> subtasks;
+    protected HistoryManager historyManager;
+    protected int idCounter = 0;
 
     public InMemoryTaskManager() {
         tasks = new HashMap<>();
         epics = new HashMap<>();
         subtasks = new HashMap<>();
+        historyManager = Managers.getDefaultHistory();
     }
 
     @Override
