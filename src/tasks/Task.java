@@ -3,6 +3,9 @@ package tasks;
 import enums.Status;
 import enums.Type;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -12,15 +15,47 @@ public class Task {
     private String description;
     private Status status;
 
-    public Task(int id, String name, String description, Status status) {
+    Duration duration;
+    LocalDateTime startTime;
+    LocalDateTime endTime;
+
+    public Task(int id, String name, String description, Status status,
+                LocalDateTime startTime, Duration duration) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.status = status;
+        this.duration = duration;
+        this.startTime = startTime;
+        this.endTime = startTime.plus(duration);
     }
 
     public Task(String name, String description) {
-        this(0, name, description, Status.NEW);
+        this(0, name, description, Status.NEW, LocalDateTime.now(), Duration.ofMinutes(15));
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     public Type getType() {
@@ -74,6 +109,9 @@ public class Task {
             result = result + ", description=null";
         }
         return result + ", status=" + status +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", duration=" + duration +
                 '}';
     }
 

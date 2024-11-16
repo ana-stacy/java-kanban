@@ -3,6 +3,8 @@ package tasks;
 import enums.Status;
 import enums.Type;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Epic extends Task {
@@ -10,7 +12,12 @@ public class Epic extends Task {
     private ArrayList<Integer> subtasksId;
 
     public Epic(int id, String name, String description, Status status) {
-        super(id, name, description, status);
+        super(id, name, description, status, LocalDateTime.now(), Duration.ZERO);
+        this.subtasksId = new ArrayList<>();
+    }
+
+    public Epic(int id, String name, String description, Status status, LocalDateTime startTime, Duration duration) {
+        super(id, name, description, status, startTime, duration);
         this.subtasksId = new ArrayList<>();
     }
 
@@ -56,13 +63,18 @@ public class Epic extends Task {
             result = result + ", description=null";
         }
         if (subtasksId.isEmpty()) {
-            result =  result + ", subtasksId=null";
+            result = result + ", subtasksId=null";
         } else {
-            result =  result + ", subtasksId=" + getListOfSubtasksId();
+            result = result + ", subtasksId=" + getListOfSubtasksId();
         }
-        return result +
-                ", status=" + getStatus() +
-                '}';
+        result = result + ", status=" + getStatus();
+        if (!subtasksId.isEmpty()) {
+            result = result +
+                    ", startTime=" + getStartTime() +
+                    ", endTime=" + getEndTime() +
+                    ", duration=" + getDuration();
+        }
+        return result + '}';
     }
 
 }

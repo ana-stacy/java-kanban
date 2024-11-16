@@ -22,7 +22,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public void save() throws ManagerSaveException {
         try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(file))) {
-            fileWriter.write("id,type,name,status,description,epic\n");
+            fileWriter.write("id,type,name,status,description,epic,startTime,endTime,duration\n");
             for (Task task : getListOfTasks()) {
                 fileWriter.write(TaskConverter.toString(task) + "\n");
             }
@@ -50,12 +50,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 switch (task.getType()) {
                     case Type.TASK:
                         fileBackedTaskManager.tasks.put(task.getId(), task);
+                        fileBackedTaskManager.prioritizedTasks.add(task);
                         break;
                     case Type.EPIC:
                         fileBackedTaskManager.epics.put(task.getId(), (Epic) task);
                         break;
                     case Type.SUBTASK:
                         fileBackedTaskManager.subtasks.put(task.getId(), (Subtask) task);
+                        fileBackedTaskManager.prioritizedTasks.add(task);
                         int epicId = task.getEpicId();
                         Epic epic = fileBackedTaskManager.epics.get(epicId);
                         epic.addSubtaskId(task.getId());
