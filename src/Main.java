@@ -59,7 +59,7 @@ public class Main {
 
         FileBackedTaskManager loadFileManager = FileBackedTaskManager.loadFromFile(file);
 
-        Task task3 = new Task(0, "Задача 2", "Описание задачи 2", Status.NEW,
+        Task task3 = new Task(0, "Задача 3", "Описание задачи 3", Status.NEW,
                 LocalDateTime.of(2024,11,10, 23, 20), Duration.ofMinutes(15));
         loadFileManager.createNewTask(task3);
 

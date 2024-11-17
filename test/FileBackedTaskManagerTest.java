@@ -61,10 +61,10 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
         reader.close();
 
         String expectedOutput = "id,type,name,status,description,epic,startTime,endTime,duration" +
-                "1,TASK,Задача 1,NEW,Описание задачи 1,null,2024-11-10T22:00,2024-11-10T22:15,PT15M," +
-                "2,TASK,Задача 2,NEW,Описание задачи 2,null,2024-11-10T22:16,2024-11-10T22:31,PT15M," +
-                "3,EPIC,Эпик 1,NEW,Описание эпика 1,null,2024-11-10T22:40,2024-11-10T22:55,PT15M," +
-                "4,SUBTASK,Сабтаск 1,NEW,Описание сабтаска 1,3,2024-11-10T22:40,2024-11-10T22:55,PT15M,";
+                "1,TASK,Задача 1,NEW,Описание задачи 1,null,2024-11-10T22:00,2024-11-10T22:15,15," +
+                "2,TASK,Задача 2,NEW,Описание задачи 2,null,2024-11-10T22:16,2024-11-10T22:31,15," +
+                "3,EPIC,Эпик 1,NEW,Описание эпика 1,null,2024-11-10T22:40,2024-11-10T22:55,15," +
+                "4,SUBTASK,Сабтаск 1,NEW,Описание сабтаска 1,3,2024-11-10T22:40,2024-11-10T22:55,15,";
 
         Assertions.assertEquals(expectedOutput, actualOutput, "Содержимое файлов не совпадает");
     }
@@ -103,5 +103,9 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
         Assertions.assertEquals(manager.getListOfTasks(), loadFileManager.getListOfTasks(), "Задачи не совпадают");
         Assertions.assertEquals(manager.getListOfSubtasks(), loadFileManager.getListOfSubtasks(), "Подзадачи не совпадают");
         Assertions.assertEquals(manager.getListOfEpics(), loadFileManager.getListOfEpics(), "Эпики не совпадают");
+
+        Assertions.assertEquals(manager.getPrioritizedTasks(), loadFileManager.getPrioritizedTasks(), "Задачи не совпадают");
+        Assertions.assertEquals(manager.getPrioritizedTasks(), loadFileManager.getPrioritizedTasks(), "Подзадачи не совпадают");
+        Assertions.assertEquals(manager.getPrioritizedTasks(), loadFileManager.getPrioritizedTasks(), "Эпики не совпадают");
     }
 }

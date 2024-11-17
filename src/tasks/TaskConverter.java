@@ -9,9 +9,10 @@ import java.time.LocalDateTime;
 public final class TaskConverter {
 
     public static String toString(Task task) {
+
         return task.getId() + "," + task.getType() + "," + task.getName() + "," + task.getStatus() + ","
                     + task.getDescription() + "," + task.getEpicId() + ","
-                    + task.getStartTime() + "," + task.getEndTime() + "," + task.getDuration() + ",";
+                    + task.getStartTime() + "," + task.getEndTime() + "," +  task.getDuration().toMinutes() + ",";
     }
 
     public static Task fromString(String value) {
@@ -24,7 +25,8 @@ public final class TaskConverter {
         Status status = Status.valueOf(split[3]);
         String description = split[4];
         LocalDateTime startTime = LocalDateTime.parse(split[6]);
-        Duration duration = Duration.parse(split[8]);
+        long durationInMinutes = Long.parseLong(split[8]);
+        Duration duration = Duration.ofMinutes(durationInMinutes);
 
         if (type == Type.TASK) {
             task = new Task(id, name, description, status, startTime, duration);
