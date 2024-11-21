@@ -109,7 +109,7 @@ public class InMemoryTaskManager implements TaskManager {
         return task1.getStartTime().isBefore(task2.getEndTime()) && task1.getEndTime().isAfter(task2.getStartTime());
     }
 
-    private void checkForTimeConflicts (Task task) {
+    private void checkForTimeConflicts(Task task) {
         if (task.getStartTime() != null) {
             Task conflictingTask = getPrioritizedTasks().stream()
                     .filter(existingTask -> isTimeIntersects(existingTask, task))
