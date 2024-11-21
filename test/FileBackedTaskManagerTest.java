@@ -104,8 +104,6 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
         Assertions.assertEquals(manager.getListOfSubtasks(), loadFileManager.getListOfSubtasks(), "Подзадачи не совпадают");
         Assertions.assertEquals(manager.getListOfEpics(), loadFileManager.getListOfEpics(), "Эпики не совпадают");
 
-        Assertions.assertEquals(manager.getPrioritizedTasks(), loadFileManager.getPrioritizedTasks(), "Задачи не совпадают");
-        Assertions.assertEquals(manager.getPrioritizedTasks(), loadFileManager.getPrioritizedTasks(), "Подзадачи не совпадают");
-        Assertions.assertEquals(manager.getPrioritizedTasks(), loadFileManager.getPrioritizedTasks(), "Эпики не совпадают");
+        Assertions.assertEquals(manager.getPrioritizedTasks(), loadFileManager.getPrioritizedTasks(), "Задачи не совпадают");;
     }
 }

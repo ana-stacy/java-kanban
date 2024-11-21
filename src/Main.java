@@ -65,7 +65,7 @@ public class Main {
 
         Subtask updatedSubtask2 = new Subtask(subtask2.getId(), subtask2.getName(), subtask2.getDescription(),
                 Status.DONE, subtask2.getEpicId(),
-                LocalDateTime.of(2024,11,10, 15, 32), subtask2.getDuration());
+                LocalDateTime.of(2024,11,10, 23, 50), subtask2.getDuration());
         loadFileManager.updateSubtask(updatedSubtask2);
 
         System.out.println("Список задач из файла:");

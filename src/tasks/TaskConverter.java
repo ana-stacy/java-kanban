@@ -31,7 +31,7 @@ public final class TaskConverter {
         if (type == Type.TASK) {
             task = new Task(id, name, description, status, startTime, duration);
         } else if (type == Type.EPIC) {
-            task = new Epic(id, name, description, status, startTime, duration);
+            task = new Epic(id, name, description, status);
         } else {
             int epicId = Integer.parseInt(split[5]);
             task = new Subtask(id, name, description, status, epicId, startTime, duration);

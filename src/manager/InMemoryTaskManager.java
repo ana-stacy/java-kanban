@@ -109,9 +109,7 @@ public class InMemoryTaskManager implements TaskManager {
         return task1.getStartTime().isBefore(task2.getEndTime()) && task1.getEndTime().isAfter(task2.getStartTime());
     }
 
-    @Override
-    public void createNewTask(Task task) {
-
+    private void checkForTimeConflicts (Task task) {
         if (task.getStartTime() != null) {
             Task conflictingTask = getPrioritizedTasks().stream()
                     .filter(existingTask -> isTimeIntersects(existingTask, task))
@@ -122,7 +120,11 @@ public class InMemoryTaskManager implements TaskManager {
                 throw new ValidationException("Пересечение по времени с задачей по id: " + conflictingTask.getId());
             }
         }
+    }
 
+    @Override
+    public void createNewTask(Task task) {
+        checkForTimeConflicts(task);
         task.setId(++idCounter);
         tasks.put(task.getId(), task);
         if (task.getStartTime() != null) {
@@ -138,17 +140,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void createNewSubtask(Subtask subtask) {
-
-        if (subtask.getStartTime() != null) { // добавлен комментарий в Pull request
-            Task conflictingTask = getPrioritizedTasks().stream()
-                    .filter(existingTask -> isTimeIntersects(existingTask, subtask))
-                    .findFirst()
-                    .orElse(null);
-
-            if (conflictingTask != null) {
-                throw new ValidationException("Пересечение по времени с задачей по id: " + conflictingTask.getId());
-            }
-        }
+        checkForTimeConflicts(subtask);
 
         subtask.setId(++idCounter);
         subtasks.put(subtask.getId(), subtask);
@@ -170,20 +162,13 @@ public class InMemoryTaskManager implements TaskManager {
             throw new NotFoundException("Задача не найдена");
         }
 
-        if (task.getStartTime() != null) {
-            Task conflictingTask = getPrioritizedTasks().stream()
-                    .filter(existingTask -> isTimeIntersects(existingTask, task))
-                    .findFirst()
-                    .orElse(null);
+        checkForTimeConflicts(task);
 
-            if (conflictingTask != null) {
-                throw new ValidationException("Пересечение по времени с задачей по id: " + conflictingTask.getId());
-            }
+        tasks.put(task.getId(), task);
+        if (task.getStartTime() != null) {
             prioritizedTasks.remove(originalTask);
             prioritizedTasks.add(task);
         }
-
-        tasks.put(task.getId(), task);
     }
 
     @Override
@@ -195,6 +180,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         epics.put(epic.getId(), epic);
+        setEpicTime(epic.getId());
     }
 
     private void defineEpicStatus(int epicId) {
@@ -246,23 +232,15 @@ public class InMemoryTaskManager implements TaskManager {
             throw new NotFoundException("Подзадача не найдена");
         }
 
+        checkForTimeConflicts(subtask);
+
+        subtasks.put(subtask.getId(), subtask);
+        defineEpicStatus(subtask.getEpicId());
         if (subtask.getStartTime() != null) {
-            Task conflictingTask = getPrioritizedTasks().stream()
-                    .filter(existingTask -> isTimeIntersects(existingTask, subtask))
-                    .findFirst()
-                    .orElse(null);
-
-            if (conflictingTask != null) {
-                throw new ValidationException("Пересечение по времени с задачей по id: " + conflictingTask.getId());
-            }
-
             prioritizedTasks.remove(originalSubtask);
             prioritizedTasks.add(subtask);
             setEpicTime(subtask.getEpicId());
         }
-
-        subtasks.put(subtask.getId(), subtask);
-        defineEpicStatus(subtask.getEpicId());
     }
 
     @Override
