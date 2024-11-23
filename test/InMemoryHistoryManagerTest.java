@@ -1,3 +1,4 @@
+import enums.Status;
 import nodes.Node;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,8 @@ import tasks.Epic;
 import tasks.Task;
 import tasks.Subtask;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -25,12 +28,15 @@ public class InMemoryHistoryManagerTest {
 
     @Test
     public void addTaskInHistoryTest() {
-        Task task1 = new Task("Задача 1", "Описание задачи 1");
+        Task task1 = new Task(0, "Задача 1", "Описание задачи 1", Status.NEW,
+                LocalDateTime.of(2024,11,10, 22, 0), Duration.ofMinutes(15));
         taskManager.createNewTask(task1);
         Epic epic1 = new Epic("Эпик 1", "Описание эпика 1");
         taskManager.createNewEpic(epic1);
-        Subtask subtask1 = new Subtask("Подзадача 1", "Описание подзадачи 1", epic1.getId());
-        taskManager.createNewTask(subtask1);
+        Subtask subtask1 = new Subtask(0, "Подзадача 1", "Описание подзадачи 1",
+                Status.NEW, epic1.getId(),
+                LocalDateTime.of(2024,11,10, 22, 16), Duration.ofMinutes(15));
+        taskManager.createNewSubtask(subtask1);
 
         Assertions.assertEquals(0, taskManager.getHistory().size());
 
@@ -40,19 +46,71 @@ public class InMemoryHistoryManagerTest {
     }
 
     @Test
-    public void removeTaskFromHistoryTest() {
-        Task task1 = new Task("Задача 1", "Описание задачи 1");
+    public void removeTaskFromBeginningOfHistoryTest() {
+        Task task1 = new Task(0, "Задача 1", "Описание задачи 1", Status.NEW,
+                LocalDateTime.of(2024,11,10, 22, 0), Duration.ofMinutes(15));
         taskManager.createNewTask(task1);
         Epic epic1 = new Epic("Эпик 1", "Описание эпика 1");
         taskManager.createNewEpic(epic1);
+        Subtask subtask1 = new Subtask(0, "Подзадача 1", "Описание подзадачи 1",
+                Status.NEW, epic1.getId(),
+                LocalDateTime.of(2024,11,10, 22, 16), Duration.ofMinutes(15));
+        taskManager.createNewSubtask(subtask1);
 
         Assertions.assertEquals(0, taskManager.getHistory().size());
 
         taskManager.getTask(task1.getId());
-        Assertions.assertEquals(1, taskManager.getHistory().size());
+        taskManager.getSubtask(subtask1.getId());
+        taskManager.getEpic(epic1.getId());
+        Assertions.assertEquals(3, taskManager.getHistory().size());
 
         taskManager.deleteTaskById(task1.getId());
+        Assertions.assertEquals(2, taskManager.getHistory().size());
+    }
+
+    @Test
+    public void removeTaskFromMiddleOfHistoryTest() {
+        Task task1 = new Task(0, "Задача 1", "Описание задачи 1", Status.NEW,
+                LocalDateTime.of(2024,11,10, 22, 0), Duration.ofMinutes(15));
+        taskManager.createNewTask(task1);
+        Epic epic1 = new Epic("Эпик 1", "Описание эпика 1");
+        taskManager.createNewEpic(epic1);
+        Subtask subtask1 = new Subtask(0, "Подзадача 1", "Описание подзадачи 1",
+                Status.NEW, epic1.getId(),
+                LocalDateTime.of(2024,11,10, 22, 16), Duration.ofMinutes(15));
+        taskManager.createNewSubtask(subtask1);
+
         Assertions.assertEquals(0, taskManager.getHistory().size());
+
+        taskManager.getTask(task1.getId());
+        taskManager.getSubtask(subtask1.getId());
+        taskManager.getEpic(epic1.getId());
+        Assertions.assertEquals(3, taskManager.getHistory().size());
+
+        taskManager.deleteSubtaskById(subtask1.getId());
+        Assertions.assertEquals(2, taskManager.getHistory().size());
+    }
+
+    @Test
+    public void removeTaskFromEndOfHistoryTest() {
+        Task task1 = new Task(0, "Задача 1", "Описание задачи 1", Status.NEW,
+                LocalDateTime.of(2024,11,10, 22, 0), Duration.ofMinutes(15));
+        taskManager.createNewTask(task1);
+        Epic epic1 = new Epic("Эпик 1", "Описание эпика 1");
+        taskManager.createNewEpic(epic1);
+        Task task2 = new Task(0, "Задача 2", "Описание задачи 2", Status.NEW,
+                LocalDateTime.of(2024,11,10, 22, 16), Duration.ofMinutes(15));
+        taskManager.createNewTask(task2);
+
+        Assertions.assertEquals(0, taskManager.getHistory().size());
+
+        taskManager.getTask(task1.getId());
+        taskManager.getTask(task2.getId());
+        taskManager.getEpic(epic1.getId());
+        Assertions.assertEquals(3, taskManager.getHistory().size());
+
+        taskManager.deleteEpicById(epic1.getId());
+        Assertions.assertEquals(2, taskManager.getHistory().size());
     }
 
     @Test
@@ -73,11 +131,14 @@ public class InMemoryHistoryManagerTest {
 
     @Test
     public void linkLastTest() {
-        Task task1 = new Task("Задача 1", "Описание задачи 1");
+        Task task1 = new Task(0, "Задача 1", "Описание задачи 1", Status.NEW,
+                LocalDateTime.of(2024,11,10, 22, 0), Duration.ofMinutes(15));
         taskManager.createNewTask(task1);
-        Task task2 = new Task("Задача 2", "Описание задачи 2");
+        Task task2 = new Task(0, "Задача 2", "Описание задачи 2", Status.NEW,
+                LocalDateTime.of(2024,11,10, 22, 16), Duration.ofMinutes(15));
         taskManager.createNewTask(task2);
-        Task task3 = new Task("Задача 3", "Описание задачи 3");
+        Task task3 = new Task(0, "Задача 3", "Описание задачи 3", Status.NEW,
+                LocalDateTime.of(2024,11,10, 22, 40), Duration.ofMinutes(15));
         taskManager.createNewTask(task3);
 
         history.linklast(task3);
@@ -93,9 +154,11 @@ public class InMemoryHistoryManagerTest {
 
     @Test
     public void linkLastIfTaskExistsTest() {
-        Task task1 = new Task("Задача 1", "Описание задачи 1");
+        Task task1 = new Task(0, "Задача 1", "Описание задачи 1", Status.NEW,
+                LocalDateTime.of(2024,11,10, 22, 0), Duration.ofMinutes(15));
         taskManager.createNewTask(task1);
-        Task task2 = new Task("Задача 2", "Описание задачи 2");
+        Task task2 = new Task(0, "Задача 2", "Описание задачи 2", Status.NEW,
+                LocalDateTime.of(2024,11,10, 22, 16), Duration.ofMinutes(15));
         taskManager.createNewTask(task2);
 
 
@@ -117,11 +180,14 @@ public class InMemoryHistoryManagerTest {
 
     @Test
     public void NodesTest() {
-        Task task1 = new Task("Задача 1", "Описание задачи 1");
+        Task task1 = new Task(0, "Задача 1", "Описание задачи 1", Status.NEW,
+                LocalDateTime.of(2024,11,10, 22, 0), Duration.ofMinutes(15));
         taskManager.createNewTask(task1);
-        Task task2 = new Task("Задача 2", "Описание задачи 2");
+        Task task2 = new Task(0, "Задача 2", "Описание задачи 2", Status.NEW,
+                LocalDateTime.of(2024,11,10, 22, 16), Duration.ofMinutes(15));
         taskManager.createNewTask(task2);
-        Task task3 = new Task("Задача 3", "Описание задачи 3");
+        Task task3 = new Task(0, "Задача 3", "Описание задачи 3", Status.NEW,
+                LocalDateTime.of(2024,11,10, 22, 40), Duration.ofMinutes(15));
         taskManager.createNewTask(task3);
 
         history.linklast(task2);
