@@ -11,8 +11,8 @@ import server.HttpTaskServer;
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
-import typeAdapters.DurationTypeAdapter;
-import typeAdapters.LocalDateTimeTypeAdapter;
+import typeadapter.DurationTypeAdapter;
+import typeadapter.LocalDateTimeTypeAdapter;
 
 import java.io.IOException;
 import java.net.URI;

@@ -7,8 +7,8 @@ import com.sun.net.httpserver.HttpHandler;
 
 import manager.TaskManager;
 
-import typeAdapters.DurationTypeAdapter;
-import typeAdapters.LocalDateTimeTypeAdapter;
+import typeadapter.DurationTypeAdapter;
+import typeadapter.LocalDateTimeTypeAdapter;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
