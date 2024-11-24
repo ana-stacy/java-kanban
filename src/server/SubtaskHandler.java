@@ -22,7 +22,7 @@ public class SubtaskHandler extends BaseHttpHandler {
             switch (pathParts.length) {
                 case 2:
                     ArrayList<Subtask> subtasksList = taskManager.getListOfSubtasks();
-                    if (!subtasksList.isEmpty()){
+                    if (!subtasksList.isEmpty()) {
                         String subtasksListJson = gson.toJson(subtasksList);
                         sendText(exchange, subtasksListJson);
                     } else {

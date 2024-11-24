@@ -22,7 +22,7 @@ public class TaskHandler extends BaseHttpHandler {
            switch (pathParts.length) {
                case 2:
                    ArrayList<Task> tasksList = taskManager.getListOfTasks();
-                   if (!tasksList.isEmpty()){
+                   if (!tasksList.isEmpty()) {
                        String tasksListJson = gson.toJson(tasksList);
                        sendText(exchange, tasksListJson);
                    } else {
