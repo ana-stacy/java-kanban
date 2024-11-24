@@ -53,7 +53,7 @@ public class TaskHandler extends BaseHttpHandler {
                 try {
                     taskManager.createNewTask(task);
                     sendTextModification(exchange, "Задача успешно создана");
-                } catch(ValidationException e) {
+                } catch (ValidationException e) {
                     sendHasInteractions(exchange, e.getMessage());
                 }
             } else {
