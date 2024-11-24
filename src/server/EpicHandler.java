@@ -22,7 +22,7 @@ public class EpicHandler extends BaseHttpHandler {
         try (exchange) {
             if (pathParts.length == 2) {
                 ArrayList<Epic> epicsList = taskManager.getListOfEpics();
-                if (!epicsList.isEmpty()){
+                if (!epicsList.isEmpty()) {
                     String epicsListJson = gson.toJson(epicsList);
                     sendText(exchange, epicsListJson);
                 } else {
@@ -56,7 +56,7 @@ public class EpicHandler extends BaseHttpHandler {
             try {
                 taskManager.createNewEpic(epic);
                 sendTextModification(exchange, "Эпик успешно создан");
-            } catch(ValidationException e) {
+            } catch (ValidationException e) {
                 sendHasInteractions(exchange, e.getMessage());
             }
         }
@@ -65,7 +65,7 @@ public class EpicHandler extends BaseHttpHandler {
     @Override
     public void handleDeleteMethod(HttpExchange exchange, String[] pathParts) throws IOException {
         try (exchange) {
-            switch(pathParts.length) {
+            switch (pathParts.length) {
                 case 2 :
                     try {
                         taskManager.clearListOfEpics();

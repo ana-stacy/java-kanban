@@ -19,7 +19,7 @@ public class SubtaskHandler extends BaseHttpHandler {
     @Override
     public void handleGetMethod(HttpExchange exchange, String[] pathParts) throws IOException {
         try (exchange) {
-            switch(pathParts.length) {
+            switch (pathParts.length) {
                 case 2 :
                     ArrayList<Subtask> subtasksList = taskManager.getListOfSubtasks();
                     if (!subtasksList.isEmpty()){
@@ -54,7 +54,7 @@ public class SubtaskHandler extends BaseHttpHandler {
                 try {
                     taskManager.createNewSubtask(subtask);
                     sendTextModification(exchange, "Подзадача успешно создана");
-                } catch(ValidationException e) {
+                } catch (ValidationException e) {
                     sendHasInteractions(exchange, e.getMessage());
                 }
             } else {
@@ -73,7 +73,7 @@ public class SubtaskHandler extends BaseHttpHandler {
     @Override
     public void handleDeleteMethod(HttpExchange exchange, String[] pathParts) throws IOException {
         try (exchange) {
-            switch(pathParts.length) {
+            switch (pathParts.length) {
                 case 2 :
                     try {
                         taskManager.clearListOfSubtasks();

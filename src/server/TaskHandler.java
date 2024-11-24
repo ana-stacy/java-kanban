@@ -19,7 +19,7 @@ public class TaskHandler extends BaseHttpHandler {
     @Override
     public void handleGetMethod(HttpExchange exchange, String[] pathParts) throws IOException {
        try (exchange) {
-           switch(pathParts.length) {
+           switch (pathParts.length) {
                case 2 :
                    ArrayList<Task> tasksList = taskManager.getListOfTasks();
                    if (!tasksList.isEmpty()){
@@ -72,7 +72,7 @@ public class TaskHandler extends BaseHttpHandler {
     @Override
     public void handleDeleteMethod(HttpExchange exchange, String[] pathParts) throws IOException {
         try (exchange) {
-            switch(pathParts.length) {
+            switch (pathParts.length) {
                 case 2 :
                     try {
                         taskManager.clearListOfTasks();
