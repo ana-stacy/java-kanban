@@ -31,10 +31,10 @@ public class PrioritizedHandler extends BaseHttpHandler {
         try (exchange) {
             sendUnknownMethod(exchange, "Метод отсутствует");
         }
-    };
+    }
     public void handleDeleteMethod(HttpExchange exchange, String[] pathParts) throws IOException {
         try (exchange) {
             sendUnknownMethod(exchange, "Метод отсутствует");
         }
-    };
+    }
 }
