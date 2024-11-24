@@ -61,7 +61,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                         int epicId = task.getEpicId();
                         Epic epic = fileBackedTaskManager.epics.get(epicId);
                         epic.addSubtaskId(task.getId());
-                        fileBackedTaskManager.updateEpic(epic);
+                        fileBackedTaskManager.updateEpic(epic); // Для того, чтобы записать время эпику (иначе будет null, как в конструкторе)
                         break;
                 }
                 if (task.getId() > maxId) {

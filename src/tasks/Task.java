@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Task {
 
     private String name;
-    private int id;
+    private Integer id;
     private String description;
     private Status status;
 
@@ -60,7 +60,7 @@ public class Task {
         return null;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
