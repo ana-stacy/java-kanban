@@ -20,7 +20,7 @@ public class SubtaskHandler extends BaseHttpHandler {
     public void handleGetMethod(HttpExchange exchange, String[] pathParts) throws IOException {
         try (exchange) {
             switch (pathParts.length) {
-                case 2 :
+                case 2:
                     ArrayList<Subtask> subtasksList = taskManager.getListOfSubtasks();
                     if (!subtasksList.isEmpty()){
                         String subtasksListJson = gson.toJson(subtasksList);
@@ -29,7 +29,7 @@ public class SubtaskHandler extends BaseHttpHandler {
                         sendNotFound(exchange, "Подзадачи отсутствуют");
                     }
                     break;
-                case 3 :
+                case 3:
                     int idSubtask = Integer.parseInt(pathParts[2]);
                     Subtask subtask = null;
                     try {
@@ -74,7 +74,7 @@ public class SubtaskHandler extends BaseHttpHandler {
     public void handleDeleteMethod(HttpExchange exchange, String[] pathParts) throws IOException {
         try (exchange) {
             switch (pathParts.length) {
-                case 2 :
+                case 2:
                     try {
                         taskManager.clearListOfSubtasks();
                         sendText(exchange, "Все подзадачи удалены");
@@ -82,7 +82,7 @@ public class SubtaskHandler extends BaseHttpHandler {
                         sendNotFound(exchange, e.getMessage());
                     }
                     break;
-                case 3 :
+                case 3:
                     int idSubtask = Integer.parseInt(pathParts[2]);
                     try {
                         taskManager.deleteSubtaskById(idSubtask);

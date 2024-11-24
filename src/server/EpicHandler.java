@@ -66,7 +66,7 @@ public class EpicHandler extends BaseHttpHandler {
     public void handleDeleteMethod(HttpExchange exchange, String[] pathParts) throws IOException {
         try (exchange) {
             switch (pathParts.length) {
-                case 2 :
+                case 2:
                     try {
                         taskManager.clearListOfEpics();
                         sendText(exchange, "Все эпики и их подзадачи удалены");
@@ -74,7 +74,7 @@ public class EpicHandler extends BaseHttpHandler {
                         sendNotFound(exchange, e.getMessage());
                     }
                     break;
-                case 3 :
+                case 3:
                     int idEpic = Integer.parseInt(pathParts[2]);
                     try {
                         taskManager.deleteEpicById(idEpic);

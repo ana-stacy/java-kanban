@@ -20,7 +20,7 @@ public class TaskHandler extends BaseHttpHandler {
     public void handleGetMethod(HttpExchange exchange, String[] pathParts) throws IOException {
        try (exchange) {
            switch (pathParts.length) {
-               case 2 :
+               case 2:
                    ArrayList<Task> tasksList = taskManager.getListOfTasks();
                    if (!tasksList.isEmpty()){
                        String tasksListJson = gson.toJson(tasksList);
@@ -29,7 +29,7 @@ public class TaskHandler extends BaseHttpHandler {
                        sendNotFound(exchange, "Задачи отсутствуют");
                    }
                    break;
-               case 3 :
+               case 3:
                    int idTask = Integer.parseInt(pathParts[2]);
                    Task task = null;
                    try {
@@ -73,7 +73,7 @@ public class TaskHandler extends BaseHttpHandler {
     public void handleDeleteMethod(HttpExchange exchange, String[] pathParts) throws IOException {
         try (exchange) {
             switch (pathParts.length) {
-                case 2 :
+                case 2:
                     try {
                         taskManager.clearListOfTasks();
                         sendText(exchange, "Все задачи удалены");
@@ -81,7 +81,7 @@ public class TaskHandler extends BaseHttpHandler {
                         sendNotFound(exchange, e.getMessage());
                     }
                     break;
-                case 3 :
+                case 3:
                     int idTask = Integer.parseInt(pathParts[2]);
                     try {
                         taskManager.deleteTaskById(idTask);
