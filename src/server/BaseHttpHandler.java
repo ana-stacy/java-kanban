@@ -37,7 +37,7 @@ public abstract class BaseHttpHandler implements HttpHandler {
                     .registerTypeAdapter(Duration.class, new DurationTypeAdapter())
                     .create();
 
-            switch(method) {
+            switch (method) {
                 case "GET":
                     handleGetMethod(exchange, pathParts);
                     break;
@@ -55,7 +55,9 @@ public abstract class BaseHttpHandler implements HttpHandler {
     }
 
     protected abstract void handleGetMethod(HttpExchange exchange, String[] pathParts) throws IOException;
+
     protected abstract void handlePostMethod(HttpExchange exchange) throws IOException;
+
     protected abstract void handleDeleteMethod(HttpExchange exchange, String[] pathParts) throws IOException;
 
     protected void sendText(HttpExchange httpExchange, String text) throws IOException {
