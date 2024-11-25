@@ -26,10 +26,10 @@ import java.util.List;
 
 public class HttpTaskManagerTasksTest {
 
-    TaskManager taskManager = new InMemoryTaskManager();
-    HttpTaskServer taskServer = new HttpTaskServer();
-    GsonBuilder gsonBuilder = new GsonBuilder();
-    Gson gson = gsonBuilder
+    private TaskManager taskManager = new InMemoryTaskManager();
+    private HttpTaskServer taskServer = new HttpTaskServer();
+    private GsonBuilder gsonBuilder = new GsonBuilder();
+    private Gson gson = gsonBuilder
             .serializeNulls()
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
             .registerTypeAdapter(Duration.class, new DurationTypeAdapter())
@@ -37,6 +37,15 @@ public class HttpTaskManagerTasksTest {
 
     @BeforeEach
     public void setUp() throws IOException {
+        if (!taskManager.getListOfEpics().isEmpty()) {
+            taskManager.clearListOfEpics();
+        }
+        if (!taskManager.getListOfTasks().isEmpty()) {
+            taskManager.clearListOfTasks();
+        }
+        if (!taskManager.getListOfSubtasks().isEmpty()) {
+            taskManager.clearListOfSubtasks();
+        }
         taskServer.start(taskManager);
     }
 

@@ -95,7 +95,7 @@ public abstract class BaseHttpHandler implements HttpHandler {
     protected void sendUnknownMethod(HttpExchange httpExchange, String text) throws IOException {
         byte[] response = text.getBytes(DEFAULT_CHARSET);
         httpExchange.getResponseHeaders().add("Content-Type", "application/json;charset=utf-8");
-        httpExchange.sendResponseHeaders(500, response.length);
+        httpExchange.sendResponseHeaders(405, response.length);
         httpExchange.getResponseBody().write(response);
         httpExchange.close();
     }
