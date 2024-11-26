@@ -13,12 +13,15 @@ public class Epic extends Task {
     private LocalDateTime endTime;
 
     public Epic(int id, String name, String description, Status status) {
-        super(id, name, description, status, LocalDateTime.now(), Duration.ZERO);
+        super(id, name, description, status, null, Duration.ZERO);
+        this.endTime = null;
         this.subtasksId = new ArrayList<>();
     }
 
     public Epic(String name, String description) {
-        this(0, name, description, Status.NEW);
+        super(0, name, description, Status.NEW, null, Duration.ZERO);
+        this.endTime = null;
+        this.subtasksId = new ArrayList<>();
     }
 
     @Override
@@ -67,13 +70,13 @@ public class Epic extends Task {
         } else {
             result = result + ", description=null";
         }
-        if (subtasksId.isEmpty()) {
+        if (subtasksId == null || subtasksId.isEmpty()) {
             result = result + ", subtasksId=null";
         } else {
             result = result + ", subtasksId=" + getListOfSubtasksId();
         }
         result = result + ", status=" + getStatus();
-        if (!subtasksId.isEmpty()) {
+        if (subtasksId != null && !subtasksId.isEmpty()) {
             result = result +
                     ", startTime=" + getStartTime() +
                     ", endTime=" + getEndTime() +
